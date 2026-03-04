@@ -283,3 +283,5 @@ if ($allOk) {
     Write-Host "    claude --version" -ForegroundColor White
     Write-Host "========================================" -ForegroundColor Yellow
 }
+
+Read-Host "Presiona Enter para cerrar"
