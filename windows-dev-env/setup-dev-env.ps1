@@ -56,13 +56,12 @@ if ($pwshOk) {
     Write-Ok "PowerShell 7 ya instalado: $pwshVer"
 } else {
     try {
-        Write-Host "   Consultando ultima version de PowerShell 7..." -ForegroundColor Gray
-        $pwshApi   = Invoke-RestMethod "https://api.github.com/repos/PowerShell/PowerShell/releases/latest" -UseBasicParsing
-        $pwshAsset = $pwshApi.assets | Where-Object { $_.name -match "win-x64\.msi$" } | Select-Object -First 1
-        $pwshUrl   = $pwshAsset.browser_download_url
-        $pwshMsi   = "$TempDir\pwsh-installer.msi"
+        # URL de descarga directa - formato estable de GitHub releases
+        $pwshVersion = "7.5.1"
+        $pwshUrl     = "https://github.com/PowerShell/PowerShell/releases/download/v$pwshVersion/PowerShell-$pwshVersion-win-x64.msi"
+        $pwshMsi     = "$TempDir\pwsh-installer.msi"
 
-        Write-Host "   Version detectada: $($pwshApi.tag_name)" -ForegroundColor Gray
+        Write-Host "   Version: $pwshVersion" -ForegroundColor Gray
         Write-Host "   Descargando instalador..." -ForegroundColor Gray
         Invoke-WebRequest -Uri $pwshUrl -OutFile $pwshMsi -UseBasicParsing
 
@@ -175,13 +174,12 @@ if (Get-Command git -ErrorAction SilentlyContinue) {
     Write-Ok "Git ya instalado: $(git --version)"
 } else {
     try {
-        Write-Host "   Consultando ultima version de Git..." -ForegroundColor Gray
-        $gitApi   = Invoke-RestMethod "https://api.github.com/repos/git-for-windows/git/releases/latest" -UseBasicParsing
-        $gitAsset = $gitApi.assets | Where-Object { $_.name -match "64-bit\.exe$" } | Select-Object -First 1
-        $gitUrl   = $gitAsset.browser_download_url
-        $gitInst  = "$TempDir\git-installer.exe"
+        # URL de descarga directa - formato estable de GitHub releases
+        $gitVersion = "2.49.0"
+        $gitUrl     = "https://github.com/git-for-windows/git/releases/download/v$gitVersion.windows.1/Git-$gitVersion-64-bit.exe"
+        $gitInst    = "$TempDir\git-installer.exe"
 
-        Write-Host "   Version detectada: $($gitApi.tag_name)" -ForegroundColor Gray
+        Write-Host "   Version: $gitVersion" -ForegroundColor Gray
         Write-Host "   Descargando instalador..." -ForegroundColor Gray
         Invoke-WebRequest -Uri $gitUrl -OutFile $gitInst -UseBasicParsing
 
